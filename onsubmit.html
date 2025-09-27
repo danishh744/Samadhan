@@ -1,0 +1,32 @@
+<script>
+async function submitReport(e) {
+  e.preventDefault();
+
+  const description = document.getElementById("description").value;
+  const address = document.getElementById("address").value;
+  const lat = document.getElementById("lat").value;
+  const lon = document.getElementById("lon").value;
+  const photo = document.getElementById("photo").files[0];
+
+  const formData = new FormData();
+  formData.append("description", description);
+  formData.append("address", address);
+  formData.append("lat", lat);
+  formData.append("lon", lon);
+  formData.append("photo", photo);
+
+  const res = await fetch("http://localhost:5000/api/report", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+  console.log(data);
+
+  if (data.success) {
+    alert("Report submitted successfully!");
+  } else {
+    alert("Error: " + data.error);
+  }
+}
+</script>
